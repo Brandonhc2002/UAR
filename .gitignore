@@ -1,0 +1,22 @@
+# Vivado generated files
+*.jou
+*.log
+*.pb
+*.str
+*.cache/
+*.hw/
+*.ip_user_files/
+*.sim/
+*.runs/
+*.srcs/
+*.webtalk/
+*.data/
+*.xpr.bak
+*.restore.log
+*.Xil/
+
+# Optional
+*.wdb
+*.bit
+*.bin
+*.elf
