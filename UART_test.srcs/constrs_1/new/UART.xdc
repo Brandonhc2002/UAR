@@ -27,7 +27,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {segments_annode[*]}]
 
 
 
-
+## UART RX  Line
 set_property PACKAGE_PIN D14 [get_ports UART_RX]
 set_property IOSTANDARD LVCMOS33 [get_ports UART_RX]
 
