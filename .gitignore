@@ -1,4 +1,12 @@
-# Vivado generated files
+
+# Ignore everything inside UART_test.srcs
+/UART_test.srcs/**
+
+# Allow .v and .xdc files anywhere inside UART_test.srcs
+!/UART_test.srcs/**/*.v
+!/UART_test.srcs/**/*.xdc
+
+# Ignore typical Vivado-generated stuff
 *.jou
 *.log
 *.pb
@@ -8,14 +16,11 @@
 *.ip_user_files/
 *.sim/
 *.runs/
-*.srcs/
 *.webtalk/
 *.data/
 *.xpr.bak
 *.restore.log
 *.Xil/
-
-# Optional
 *.wdb
 *.bit
 *.bin
