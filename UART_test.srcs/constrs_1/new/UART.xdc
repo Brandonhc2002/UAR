@@ -31,5 +31,10 @@ set_property IOSTANDARD LVCMOS33 [get_ports {segments_annode[*]}]
 set_property PACKAGE_PIN D14 [get_ports UART_RX]
 set_property IOSTANDARD LVCMOS33 [get_ports UART_RX]
 
+set_property PACKAGE_PIN H14 [get_ports UART_TX]
+set_property IOSTANDARD LVCMOS33 [get_ports UART_TX]
+
+set_property PACKAGE_PIN H17 [get_ports led]
+set_property IOSTANDARD LVCMOS33 [get_ports led]
 
 

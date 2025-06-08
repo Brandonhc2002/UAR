@@ -1,52 +1,61 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 06/04/2025 12:07:24 AM
-// Design Name: 
-// Module Name: UART_test
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+module UART_test(
+    input wire clock,
+    input wire UART_RX,
+    output wire UART_TX,
+    output wire [6:0] segments_annode,
+    output wire [7:0] digit_place_annode
+);
 
+    // Wires for UART and display
+    wire [7:0] Data;
+    wire byte_received;
+    reg [7:0] number = 0;
 
-module UART_test(input clock, input UART_RX, output [6:0] segments_annode, output [7:0] digit_place_annode);
+    wire [7:0] digit_place;
+    wire [6:0] segments;
 
-parameter frequency = 100_000_000;
+    assign segments_annode = ~segments;
+    assign digit_place_annode = ~digit_place;
 
-wire [7:0] Data;
-wire byte_recieved;
+    // UART TX path
+    reg [7:0] TX = 0;
+    reg send = 0;
+    wire busy;
 
-reg [26:0] number = 0;
-wire [7:0]digit_place;
-wire [6:0]segments;
+    // UART Receiver module
+    uart_reciever uart_rx_inst (
+        .clock(clock),
+        .RX_async(UART_RX),
+        .Data(Data),
+        .byte_recieved(byte_received)
+    );
 
-assign digit_place_annode = ~digit_place;
-assign segments_annode = ~segments;
+    // UART Transmitter module
+    uart_transmitter uart_tx_inst (
+        .clock(clock),
+        .Data(TX),
+        .send(send),
+        .TX(UART_TX),
+        .busy(busy)
+    );
 
-uart_reciever S1 (.clock(clock),.RX_async(UART_RX),.Data(Data),.byte_recieved(byte_recieved));
-four_digit_7_segment my_segment(.clock(clock), .number(number), .digit_place(digit_place), .segments(segments));
+    // 7-Segment display controller
+    four_digit_7_segment display (
+        .clock(clock),
+        .number(number),
+        .digit_place(digit_place),
+        .segments(segments)
+    );
 
-always@(posedge clock)
-begin
+    // Main behavior
+    always @(posedge clock) begin
+        send <= 0;  // Default to 0
 
-    if(byte_recieved)
-    begin
-        number <= Data;
+        if (byte_received && !busy) begin
+            number <= Data;   // Update display value
+            TX <= Data;       // Echo the byte
+            send <= 1;        // Trigger transmission
+        end
     end
-
-end
-
-
 
 endmodule
